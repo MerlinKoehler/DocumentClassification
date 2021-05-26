@@ -17,8 +17,8 @@ app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
 nltk.download('stopwords')
-nlp = spacy.load('en_core_web_sm')
-STOPWORDS = set(stopwords.words('english'))
+nlp = spacy.load('de_core_news_sm')
+STOPWORDS = set(stopwords.words('german'))
 
 def save_obj(obj, name ):
     with open('obj/'+ name + '.pkl', 'wb') as f:
@@ -221,7 +221,7 @@ def deletedb():
 @app.route('/api/createmodel', methods=['GET'])
 def create_classification_model():
   documents_df = pd.DataFrame.from_dict(documents, orient='index')
-  documents_df = documents_df[documents_df.fixed == True]
+  documents_df = documents_df[documents_df.fixed == True].dropna()
 
   rows = documents_df.shape[0]
   columns = documents_df.iloc[1].vector.shape[1]
