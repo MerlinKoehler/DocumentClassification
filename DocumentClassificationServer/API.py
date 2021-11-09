@@ -12,6 +12,7 @@ import pickle
 import gensim
 from gensim import corpora
 from sklearn import svm
+from sklearn.linear_model import LogisticRegression
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -237,7 +238,7 @@ def create_classification_model():
 
   global model
   # create SVM
-  model = svm.SVC(kernel='linear')
+  model = LogisticRegression(C=1000, max_iter=100, solver='liblinear', verbose=10)
 
   model.fit(X,y)
   return "Model successfully created!"
